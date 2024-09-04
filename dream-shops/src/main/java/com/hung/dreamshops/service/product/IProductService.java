@@ -3,6 +3,7 @@ package com.hung.dreamshops.service.product;
 import com.hung.dreamshops.model.Category;
 import com.hung.dreamshops.model.Product;
 import com.hung.dreamshops.request.AddProductRequest;
+import com.hung.dreamshops.request.ProductUpdateRequest;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface IProductService {
 
     Product getProductById(Long id);
     void deleteProductById(Long id);
-    void updateProduct(Product product, Long productId);
+    Product updateProduct(ProductUpdateRequest product, Long productId);
 
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);

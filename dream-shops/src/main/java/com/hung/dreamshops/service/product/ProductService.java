@@ -6,6 +6,7 @@ import com.hung.dreamshops.model.Product;
 import com.hung.dreamshops.repository.CategoryRepository;
 import com.hung.dreamshops.repository.ProductRepository;
 import com.hung.dreamshops.request.AddProductRequest;
+import com.hung.dreamshops.request.ProductUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,28 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateProduct(Product product, Long productId) {
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
+        return productRepository.findById(productId)
+                .map(exisingProduct -> updateExistingProduct(exisingProduct, request))
+                .map(productRepository::save)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
 
     }
+
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request){
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+
+        return existingProduct;
+
+    }
+
 
     @Override
     public List<Product> getAllProducts() {
