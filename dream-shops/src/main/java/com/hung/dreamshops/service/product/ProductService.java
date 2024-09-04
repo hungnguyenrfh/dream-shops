@@ -4,15 +4,35 @@ import com.hung.dreamshops.exceptions.ProductNotFoundException;
 import com.hung.dreamshops.model.Category;
 import com.hung.dreamshops.model.Product;
 import com.hung.dreamshops.repository.ProductRepository;
+import com.hung.dreamshops.request.AddProductRequest;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest product) {
+        //check if the category is found in the DB
+        //If Yes, set it as the new product category
         return null;
+    }
+
+    //private method to help add product
+    private Product createProduct(AddProductRequest request, Category category) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
